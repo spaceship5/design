@@ -1,4 +1,4 @@
-package com.example.demo.entity;
+package com.example.spaceship.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
