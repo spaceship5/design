@@ -85,4 +85,19 @@ public class CourseResourceService {
     public AnswerQuestion findAnswerQuestion(Integer qid, Integer uid) {
         return answerQuestionRepository.find(qid,uid);
     }
+
+    public List<AnswerQuestion> listAnswerQuestion(Integer qid) {
+        return answerQuestionRepository.list(qid);
+    }
+
+    public AnswerQuestion updateAnswerQuestion(Float grade,Integer id) {
+        AnswerQuestion answerQuestion = answerQuestionRepository.findById(id).orElse(null);
+        answerQuestion.setGrade(grade);
+        return answerQuestion;
+    }
+
+    public Boolean deleteAnswerQuestion(Integer id) {
+        answerQuestionRepository.deleteById(id);
+        return true;
+    }
 }

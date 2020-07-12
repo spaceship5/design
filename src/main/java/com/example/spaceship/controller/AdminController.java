@@ -74,7 +74,7 @@ public class AdminController {
         user.setNumber(Integer.valueOf(student.get("number")));
         user.setPassword(passwordEncoder.encode(student.get("password")));
         Student student1=new Student();
-        user.setRole(User.Role.TEACHER);
+        user.setRole(User.Role.STUDENT);
         userService.addStudent(student1, user);
         return Map.of("student",student1);
     }
