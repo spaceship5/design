@@ -1,5 +1,6 @@
 package com.example.spaceship.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,6 +10,8 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @Data
+@JsonIgnoreProperties({"electives","learnedResources","answerQuestions","answerTestQuestions"})
+
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

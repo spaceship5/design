@@ -1,5 +1,6 @@
 package com.example.spaceship.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,16 +12,18 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({"electiveList"})
+
 public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
     private String detail;
-    private Integer ResourcePercentage;
-    private Integer QuestionPercentage;
-    private Integer TestPercentage;
-    private Integer HomeworkPercentage;
+    private Integer resourcePercentage;
+    private Integer questionPercentage;
+    private Integer testPercentage;
+    private Integer homeworkPercentage;
 
     @OneToMany(mappedBy = "course")
     private List<Elective> electiveList;

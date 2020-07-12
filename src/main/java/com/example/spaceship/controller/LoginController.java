@@ -41,7 +41,11 @@ public class LoginController {
     @PostMapping("login")
     public Map login(@RequestBody Map<String,String> login, HttpServletResponse response){
             User user= Optional.ofNullable(userService.getUserByNum(Integer.valueOf(login.get("username"))))
-                    .filter(u->passwordEncoder.matches(login.get("password"),u.getPassword()))
+                    .filter(u->{
+                        log.debug(login.get("password"));
+                        log.debug(u.getPassword());
+
+                        return passwordEncoder.matches(login.get("password"),u.getPassword());})
                     .orElseThrow(()->new ResponseStatusException(HttpStatus.UNAUTHORIZED,"用户名或密码错误"));
             MyToken myToken=new MyToken(user.getId(),user.getRole());
             String auth=encryptComponent.encryptToken(myToken);
@@ -50,6 +54,23 @@ public class LoginController {
             String roleCode=user.getRole()== User.Role.TEACHER?roleTeacher:(user.getRole()==User.Role.ADMIN?roleAdmin:roleStudent);
 //        KeyPairGenerator.getInstance("RSA").generateKeyPair(); 获得密钥对
             return Map.of("role",roleCode);
+    }
+    @PostMapping("register")
+    public  Map register(@RequestBody Map<String,String> register){
+        User user=new User();
+        user.setName(register.get("name"));
+        user.setNumber(Integer.valueOf(register.get("username")));
+        user.setPassword(passwordEncoder.encode(register.get("password")));
+        if(register.get("role").equals("1")){
+            Student student=new Student();
+            user.setRole(User.Role.STUDENT);
+            userService.addStudent(student, user);
+        }else{
+            Teacher teacher=new Teacher();
+            user.setRole(User.Role.TEACHER);
+            userService.addTeacher(teacher, user);
+        }
+        return Map.of("User",user);
     }
 
 }

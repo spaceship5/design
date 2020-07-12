@@ -1,5 +1,6 @@
 package com.example.spaceship.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 //考试与作业表
+@JsonIgnoreProperties({"testQuestions"})
+
 public class Test {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

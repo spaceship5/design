@@ -21,7 +21,7 @@ public class Elective {
     @ManyToOne
     private Course course;
     @ManyToOne
-    private Course student;
+    private Student student;
 
 
     @Column(columnDefinition = "timestamp default current_timestamp",
