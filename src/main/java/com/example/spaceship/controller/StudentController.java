@@ -1,10 +1,7 @@
 package com.example.spaceship.controller;
 
 import com.example.spaceship.component.RequestComponent;
-import com.example.spaceship.entity.AnswerQuestion;
-import com.example.spaceship.entity.Elective;
-import com.example.spaceship.entity.Question;
-import com.example.spaceship.entity.Resource;
+import com.example.spaceship.entity.*;
 import com.example.spaceship.repository.CourseRepository;
 import com.example.spaceship.service.CourseResourceService;
 import com.example.spaceship.service.CourseService;
@@ -41,8 +38,10 @@ public class StudentController {
         Elective elective = courseService.findElective(cid, requestComponent.getUid());
         List<Resource> resources = courseResourceService.listResource(cid);
         List<Question> questions = courseResourceService.listQuestion(cid);
+        Integer numberAnswerQuestion = courseResourceService.numberAnswerQuestion(cid, requestComponent.getUid());
+        Integer numberLearnedResource = courseResourceService.numberLearnedResource(cid, requestComponent.getUid());
         if(elective!=null)
-        return Map.of("course",courseService.findCourseByCid(cid),"elective",elective,"resources",resources,"questions",questions);
+        return Map.of("course",courseService.findCourseByCid(cid),"elective",elective,"resources",resources,"questions",questions,"numberAnswerQuestion",numberAnswerQuestion,"numberLearnedResource",numberLearnedResource);
         else
             return Map.of("course",courseService.findCourseByCid(cid),"resources",resources,"questions",questions);
     }
@@ -54,6 +53,10 @@ public class StudentController {
     @GetMapping("course/{cid}/resource/{rid}")
     public  Map getResource(@PathVariable Integer cid, @PathVariable Integer rid){
         Resource resource = courseResourceService.findResource(rid);
+        LearnedResource learnedResource = courseResourceService.findLearnedResource(rid, requestComponent.getUid());
+        if(learnedResource!=null)
+            return Map.of("resource",resource,"learnedResource",learnedResource);
+        else
         return Map.of("resource",resource);
     }
     @GetMapping("course/{cid}/question/{qid}")
@@ -64,13 +67,18 @@ public class StudentController {
         return Map.of("question",question,"answerQuestion",answerQuestion);
        else  return Map.of("question",question);
     }
-    @PostMapping("/answerQuestion")
+    @PostMapping("answerQuestion")
     public Map postAnswerQuestion(@RequestBody Map<String,String> data){
         AnswerQuestion answerQuestion = courseResourceService.addAnswerQuestion(Integer.valueOf(data.get("qid")),requestComponent.getUid(), data.get("answer"));
         return Map.of("answerQuestion",answerQuestion);
     }
-    @GetMapping("/question/{qid}/answerQuestion")
+    @GetMapping("question/{qid}/answerQuestion")
     public Map getAnswerQuestion(@PathVariable Integer qid){
         return  Map.of("answerQuestion",courseResourceService.findAnswerQuestion(qid,requestComponent.getUid()));
+    }
+    @PostMapping("learnedResource")
+    public  Map postLearnedResource(@RequestBody Map<String,String> data){
+        LearnedResource learnedResource = courseResourceService.addLearnedResource(requestComponent.getUid(), Integer.valueOf(data.get("rid")));
+        return Map.of("learnedResource",learnedResource);
     }
 }

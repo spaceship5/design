@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.naming.ldap.Rdn;
 import javax.persistence.criteria.CriteriaBuilder;
 import java.util.Map;
 import java.util.Optional;
@@ -22,7 +23,8 @@ public class CourseResourceService {
     private StudentRepository studentRepository;
     @Autowired
     private QuestionRepository questionRepository;
-
+@Autowired
+private LearnedResourceRepository learnedResourceRepository;
     @Autowired
     private AnswerQuestionRepository answerQuestionRepository;
     public Resource addResource(Resource resource,Integer cid){
@@ -99,5 +101,24 @@ public class CourseResourceService {
     public Boolean deleteAnswerQuestion(Integer id) {
         answerQuestionRepository.deleteById(id);
         return true;
+    }
+
+    public LearnedResource addLearnedResource(Integer sid,Integer rid) {
+        LearnedResource learnedResource = new LearnedResource();
+        Resource resource = resourceRepository.findById(rid).orElse(null);
+        Student student = studentRepository.findById(sid).orElse(null);
+        learnedResource.setStudent(student);
+        learnedResource.setResource(resource);
+        learnedResourceRepository.save(learnedResource);
+        return learnedResource;
+    }
+    public LearnedResource findLearnedResource(Integer rid,Integer sid) {
+        return learnedResourceRepository.find(sid, rid);
+    }
+    public Integer numberLearnedResource(Integer cid,Integer sid){
+        return learnedResourceRepository.number(cid,sid);
+    }
+    public Integer numberAnswerQuestion(Integer cid,Integer sid){
+        return answerQuestionRepository.number(cid,sid);
     }
 }

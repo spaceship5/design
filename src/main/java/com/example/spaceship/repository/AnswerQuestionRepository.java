@@ -14,4 +14,6 @@ public interface AnswerQuestionRepository extends BaseRepository<AnswerQuestion,
     AnswerQuestion find(@Param("qid") Integer qid,@Param("sid") Integer sid);
     @Query("from AnswerQuestion a where a.question.id=:qid")
     List<AnswerQuestion> list(@Param("qid") Integer qid);
+    @Query("select count(a) from AnswerQuestion  a where a.student.id=:sid and a.question.course.id=:cid")
+    Integer number(@Param("cid")Integer cid,@Param("sid") Integer sid);
 }
