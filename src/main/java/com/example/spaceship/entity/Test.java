@@ -23,7 +23,7 @@ public class Test {
     private String detail;
     private Float grade;
 //  true为考试，false为作业
-    private Boolean isTest;
+    private Boolean isExam;
 
     @ManyToOne
     private Course course;

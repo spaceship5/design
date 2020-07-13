@@ -1,13 +1,11 @@
 package com.example.spaceship.controller;
 
 import com.example.spaceship.component.RequestComponent;
-import com.example.spaceship.entity.AnswerQuestion;
-import com.example.spaceship.entity.Course;
-import com.example.spaceship.entity.Question;
-import com.example.spaceship.entity.Resource;
+import com.example.spaceship.entity.*;
 import com.example.spaceship.repository.CourseRepository;
 import com.example.spaceship.service.CourseResourceService;
 import com.example.spaceship.service.CourseService;
+import com.example.spaceship.service.TestService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +24,9 @@ public class TeacherController {
     private  RequestComponent requestComponent;
     @Autowired
     private CourseResourceService courseResourceService;
+    @Autowired
+    private TestService testService;
+
     @PostMapping("course")
     public Map postCourse(@RequestBody Map<String,String> course){
         Course course1 = new Course();
@@ -106,4 +107,43 @@ public class TeacherController {
         courseResourceService.deleteAnswerQuestion(id);
         return Map.of("success",true);
     }
+
+
+    //以下为试题管理  👇
+    //test
+    //
+    @GetMapping("course/{cid}/tests") //试题列表
+    public Map getTests(@PathVariable Integer cid) {
+        List<Test> tests=testService.findTestsById(cid);
+        return Map.of("tests",tests);
+    }
+    @GetMapping("tests/{tid}/test")  //单个试题
+    public Map getTest(@PathVariable Integer tid) {
+        Test test=testService.findTestById(tid);
+        return Map.of("test",test);
+    }
+    @PostMapping("test")  //test框架
+    public Map addTest(@RequestBody Map<String,String> data ){
+       Test test=new Test();
+        test.setTitle(data.get("title"));
+        test.setDetail(data.get("detail"));
+        testService.addTest(test,Integer.valueOf(data.get("id")));
+        return Map.of("test",test);
+    }
+
+        @PostMapping("testQuestion") //test内的题目
+        public Map addTestQuestion(@RequestBody Map<String,String> data){
+            TestQuestion testQuestion=new TestQuestion();
+            testQuestion.setCurrent(data.get("current"));
+            testQuestion.setDetail(data.get("detail"));
+            testQuestion.setError1(data.get("error1"));
+            testQuestion.setError2(data.get("error2"));
+            testQuestion.setError3(data.get("error3"));
+            testQuestion.setTitle(data.get("title"));
+            testService.addTestQuestion(testQuestion,Integer.valueOf(data.get("id")));
+            return Map.of("testQuestion",testQuestion);
+        }
+
+
+    //test
 }

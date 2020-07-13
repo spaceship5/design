@@ -23,10 +23,11 @@ public class CourseResourceService {
     private StudentRepository studentRepository;
     @Autowired
     private QuestionRepository questionRepository;
-@Autowired
-private LearnedResourceRepository learnedResourceRepository;
+    @Autowired
+    private LearnedResourceRepository learnedResourceRepository;
     @Autowired
     private AnswerQuestionRepository answerQuestionRepository;
+
     public Resource addResource(Resource resource,Integer cid){
         Course course = courseRepository.findById(cid).orElse(null);
         resource.setCourse(course);
