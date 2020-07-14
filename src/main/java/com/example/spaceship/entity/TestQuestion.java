@@ -27,8 +27,8 @@ public class TestQuestion {
     private String error1;
     private String error2;
     private String error3;
-    @OneToMany(mappedBy = "testQuestion")
-    private List<AnswerTestQuestion> answerTestQuestions;
+    @OneToOne
+    private AnswerTestQuestion answerTestQuestion;
     @ManyToOne
     private Test test;
     @Column(columnDefinition = "timestamp default current_timestamp",

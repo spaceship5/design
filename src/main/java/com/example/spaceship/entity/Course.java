@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIgnoreProperties({"electiveList"})
+@JsonIgnoreProperties({"electiveList","tests"})
 
 public class Course {
     @Id

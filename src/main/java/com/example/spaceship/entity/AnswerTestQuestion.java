@@ -18,7 +18,7 @@ public class AnswerTestQuestion {
     private Integer id;
     private String answer;
     private Float grade;
-    @ManyToOne
+    @OneToOne(mappedBy = "answerTestQuestion")
     private TestQuestion testQuestion;
     @ManyToOne
     private Student student;

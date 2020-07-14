@@ -25,13 +25,11 @@ public class TestService {
 	@Autowired
 	private AnswerTestQuestionRepository answerTestQuestionRepository;
 
-	public Test addTest(Test test,Integer cid){
-		test.setCourse(courseRepository.findById(cid).orElse(null));
+	public Test addTest(Test test){
 		testRepository.save(test);
 		return test;
 	}
-	public TestQuestion  addTestQuestion(TestQuestion testQuestion,Integer tid){
-		testQuestion.setTest(testRepository.findById(tid).orElse(null));
+	public TestQuestion  addTestQuestion(TestQuestion testQuestion){
 		testQuestionRepository.save(testQuestion);
 		return testQuestion;
 	}

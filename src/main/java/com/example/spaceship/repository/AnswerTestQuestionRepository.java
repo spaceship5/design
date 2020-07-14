@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface AnswerTestQuestionRepository extends BaseRepository<AnswerTestQuestion,Integer>{
-	@Query("select tq.answerTestQuestions from TestQuestion tq where tq.id=:tqid")
+	@Query("select tq.answerTestQuestion from TestQuestion tq where tq.id=:tqid")
 	List<AnswerTestQuestion> findAllATQ(@Param("")Integer tqid);
 }
